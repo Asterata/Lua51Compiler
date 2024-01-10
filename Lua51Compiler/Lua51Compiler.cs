@@ -894,7 +894,7 @@ public class Lua51Compiler {
 						{
 							if (!scope.VariableMap.ContainsKey(identifierName.Name))
 							{
-								Root.Emit(Lua51Opcode.SETGLOBAL, Root.EmitK(identifierName.Name), CurrentRegister);
+								Root.Emit(Lua51Opcode.SETGLOBAL,CurrentRegister , Root.EmitK(identifierName.Name));
 								AllocReg();
 							}
 							else

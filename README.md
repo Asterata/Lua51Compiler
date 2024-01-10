@@ -7,7 +7,7 @@
 ## Extra Features
 - [x] `goto` support
 - [x] `continue` support
-- [ ] `+= -= /= -- ++ etc.` support
+- [ ] `+= -= -- ++ etc.` support
 - [ ] `& | ~ >> <<` support
 
 ## Current Known Compiler Resictictions
@@ -16,19 +16,50 @@
 - ### Example
     ```lua
     local a = true
+    t = 'pass'
     goto passEqCheck
     if a then
         goto passEqCheck
         local t = 1
-        ::passEqCheck1::
+        ::passEqCheck::
     end
-    t = 'pass'
-    ::passEqCheck::
     t = 'dont pass'
+    ::passEqCheck::
+    print(t) -- Result: dont pass
     ```
-    The compiler will jump to the first label, not the second one.
+  The compiler will always jump to the first label, not the second one.
 
+## How to use?
+- [Loretta](https://github.com/LorettaDevs/Loretta) is required to use the compiler.
+#### Normal usage
+```csharp
+using Lua51Compiler;
 
+// The compiler will return a Lua51Prototype.
+// The Parameter is a string.
+var compilerResult = new LuaPrototypeCompiler().CompilePrototype("YOUR SOURCE HERE");
+
+```
+#### If you want to fold the constants
+- In this part you can rely on [Loretta](https://github.com/LorettaDevs/Loretta) for folding constants.
+```csharp
+using Lua51Compiler;
+using Loretta.CodeAnalysis;
+using Loretta.CodeAnalysis.Lua;
+using Loretta.CodeAnalysis.Lua.Experimental; // Use this if you want to fold constants.
+using Loretta.CodeAnalysis.Lua.Syntax;
+
+// parsing and folding the constants
+var source = "YOUR SOURCE HERE";
+var tree = SyntaxFactory.ParseSyntaxTree(source, new LuaParseOptions(LuaSyntaxOptions.Lua51));
+var root = (CompilationUnitSyntax) tree.GetRoot();
+var folded = root.ConstantFold(ConstantFoldingOptions.All);
+var newSource = folded.NormalizeWhitespace().ToFullString();
+
+// The compiler will return a Lua51Prototype.
+var compilerResult = new LuaPrototypeCompiler().CompilePrototype(newSource);
+
+```
 
 
 ## Compiler Examples

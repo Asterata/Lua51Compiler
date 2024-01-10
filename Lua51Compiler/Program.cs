@@ -1,10 +1,12 @@
 ﻿
-using Lua51Compiler;
+
 
 using Loretta.CodeAnalysis;
 using Loretta.CodeAnalysis.Lua;
 using Loretta.CodeAnalysis.Lua.Experimental;
 using Loretta.CodeAnalysis.Lua.Syntax;
+
+using Lua51Compiler;
 using Lua51Compiler.IR;
 
 /*
@@ -85,10 +87,7 @@ local a,b,c = 1,2,3
  */
 
 
-var source = @"function imAFunction (...)
-    return 1,2,3
-end
-local a,b,c = imAFunction()";
+var source = @"";
 
 var CLIMode = source == "";
     
